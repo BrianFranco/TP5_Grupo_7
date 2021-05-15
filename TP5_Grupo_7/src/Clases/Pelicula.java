@@ -1,4 +1,4 @@
-package tp5;
+package Clases;
 
 public class Pelicula{
 	//Attributes
