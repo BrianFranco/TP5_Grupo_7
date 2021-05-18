@@ -13,7 +13,7 @@ public class Categoria {
 	//ToString
 	@Override
 	public String toString() {
-		return "Genero: " + genero;
+		return genero;
 	}
 	//Getters and Setters
 	public String getGenero() {

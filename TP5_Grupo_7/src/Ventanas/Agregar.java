@@ -6,9 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Clases.Categoria;
+import Clases.Pelicula;
+import Ventanas.Listar;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import javax.swing.JMenuBar;
@@ -21,10 +27,10 @@ public class Agregar extends JFrame {
 
 	private JPanel comboGenero;
 	private JTextField txtNombre;
+	private JComboBox <Categoria>cbGenero;
+	private JButton btnAceptar;
+	private DefaultListModel<Pelicula>dlPelis;
 
-	/**
-	 * Create the frame.
-	 */
 	public Agregar() {
 		setTitle("Programa");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,18 +57,34 @@ public class Agregar extends JFrame {
 		comboGenero.add(ID);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(220, 79, 86, 20);
+		txtNombre.setBounds(205, 79, 170, 20);
 		comboGenero.add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(220, 129, 86, 20);
-		comboGenero.add(comboBox);
+		cbGenero = new JComboBox <Categoria>();
+		cbGenero.setBounds(205, 129, 170, 20);
+		comboGenero.add(cbGenero);
 		
-		JButton btnNewButton = new JButton("Aceptar");
-		btnNewButton.setBackground(SystemColor.activeCaption);
-		btnNewButton.setBounds(94, 180, 89, 23);
-		comboGenero.add(btnNewButton);
+		cbGenero.addItem(new Categoria ("-Seleccione un género-"));
+		cbGenero.addItem(new Categoria ("Terror"));
+		cbGenero.addItem(new Categoria("Acción"));
+		cbGenero.addItem(new Categoria("Suspenso"));
+		cbGenero.addItem(new Categoria("Romántica"));		
+		
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Pelicula p = new Pelicula();	
+				dlPelis = new DefaultListModel <Pelicula>();
+				p.setNombre(txtNombre.getText());
+				p.setGenero((Categoria)cbGenero.getSelectedItem());					
+				dlPelis.addElement(p);				
+				
+			}
+		});
+		btnAceptar.setBackground(SystemColor.activeCaption);
+		btnAceptar.setBounds(94, 180, 89, 23);
+		comboGenero.add(btnAceptar);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 434, 21);

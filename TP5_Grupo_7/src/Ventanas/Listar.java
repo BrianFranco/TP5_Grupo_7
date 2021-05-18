@@ -3,9 +3,15 @@ package Ventanas;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import Ventanas.Agregar;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Clases.Pelicula;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -17,6 +23,7 @@ import java.awt.event.ActionEvent;
 public class Listar extends JFrame {
 
 	private JPanel contentPane;
+	private JList list;
 
 	/**
 	 * Create the frame.
@@ -56,10 +63,12 @@ public class Listar extends JFrame {
 		
 		JLabel lblPeliculas = new JLabel("Peliculas");
 		lblPeliculas.setBounds(10, 111, 72, 14);
-		contentPane.add(lblPeliculas);
+		contentPane.add(lblPeliculas);			
 		
-		JList list = new JList();
+		list = new JList();
 		list.setBounds(92, 30, 291, 177);
-		contentPane.add(list);
+		contentPane.add(list);		
 	}
+
+	
 }

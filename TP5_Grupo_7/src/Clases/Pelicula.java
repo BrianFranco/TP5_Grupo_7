@@ -24,6 +24,13 @@ public class Pelicula{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public Categoria getGenero() {
+		return genero;
+	}
+	public void setGenero(Categoria genero) {
+		this.genero = genero;
+	}
 	//toString
 	@Override
 	public String toString() {
