@@ -1,114 +1,128 @@
 package Ventanas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import Clases.Categoria;
 import Clases.Pelicula;
-import Ventanas.Listar;
-
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import java.awt.SystemColor;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Agregar extends JFrame {
-
-	private JPanel comboGenero;
-	private JTextField txtNombre;
-	private JComboBox <Categoria>cbGenero;
+public class Agregar extends JPanel {
+	//Attributes
+	private static final long serialVersionUID = 1L;
+	//Labels
+	private JLabel lblId;
+	private JLabel labelid;
+	private JLabel lblNombre;
+	private JLabel lblCategoria;
+	//Inputs
+	private JTextField textNombre;
+	private JComboBox <String>cbGenero;
+	//Button
 	private JButton btnAceptar;
-	private DefaultListModel<Pelicula>dlPelis;
-
+	
+	private DefaultListModel<Pelicula> dlPelicula;
+	//Constructor
 	public Agregar() {
-		setTitle("Programa");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 295);
-		comboGenero = new JPanel();
-		comboGenero.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(comboGenero);
-		comboGenero.setLayout(null);
 		
-		JLabel labelID = new JLabel("ID");
-		labelID.setBounds(94, 42, 46, 14);
-		comboGenero.add(labelID);
+		setLayout(null);
 		
-		JLabel labelNombre = new JLabel("Nombre");
-		labelNombre.setBounds(94, 82, 46, 14);
-		comboGenero.add(labelNombre);
+		DibujarLabels();
+		DibujarInputs();
+		DibujarButtonAceptar();
 		
-		JLabel labelGenero = new JLabel("Genero");
-		labelGenero.setBounds(94, 132, 46, 14);
-		comboGenero.add(labelGenero);
 		
-		JLabel ID = new JLabel("");
-		ID.setBounds(220, 42, 46, 14);
-		comboGenero.add(ID);
-		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(205, 79, 170, 20);
-		comboGenero.add(txtNombre);
-		txtNombre.setColumns(10);
-		
-		cbGenero = new JComboBox <Categoria>();
-		cbGenero.setBounds(205, 129, 170, 20);
-		comboGenero.add(cbGenero);
-		
-		cbGenero.addItem(new Categoria ("-Seleccione un género-"));
-		cbGenero.addItem(new Categoria ("Terror"));
-		cbGenero.addItem(new Categoria("Acción"));
-		cbGenero.addItem(new Categoria("Suspenso"));
-		cbGenero.addItem(new Categoria("Romántica"));		
-		
+	}
+	//Agrego BtnAceptar y actionListener
+	private void DibujarButtonAceptar() {
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAceptar.setBounds(101, 250, 125, 30);
 		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Pelicula p = new Pelicula();	
-				dlPelis = new DefaultListModel <Pelicula>();
-				p.setNombre(txtNombre.getText());
-				p.setGenero((Categoria)cbGenero.getSelectedItem());					
-				dlPelis.addElement(p);				
-				
-			}
-		});
-		btnAceptar.setBackground(SystemColor.activeCaption);
-		btnAceptar.setBounds(94, 180, 89, 23);
-		comboGenero.add(btnAceptar);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 434, 21);
-		comboGenero.add(menuBar);
-		
-		JMenu mnPeliculas = new JMenu("Peliculas");
-		menuBar.add(mnPeliculas);
-		
-		JMenuItem mntmAgregar = new JMenuItem("Principal");
-		mntmAgregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Principal pri = new Principal();
-				pri.setVisible(true);
-			}
-		});
-		mnPeliculas.add(mntmAgregar);
-		
-		JMenuItem mntmListar = new JMenuItem("Listar");
-		mntmListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Listar li = new Listar();
-				li.setVisible(true);
+				if(cbGenero.getSelectedIndex() == 0 || textNombre.getText().isEmpty()) {
+					String msj;
+					if(cbGenero.getSelectedIndex() == 0 && textNombre.getText().isEmpty()) {
+						msj="Completar el nombre y seleccionar un genero.";
+					}else if(textNombre.getText().isEmpty()) {
+						msj="Completar el nombre.";
+					}else {
+						msj="Seleccionar un genero";
+					}
+					JOptionPane.showMessageDialog(null,msj,"Error",JOptionPane.ERROR_MESSAGE);
+				}else {
+					Pelicula peli = new Pelicula(textNombre.getText(),cbGenero.getSelectedItem().toString());
+					dlPelicula.add(CompararNombresPeliculas(peli), peli);
+					
+					textNombre.setText("");
+					cbGenero.setSelectedIndex(0);
+					labelid.setText(Integer.toString(Pelicula.getContPel()));
+					JOptionPane.showMessageDialog(null, "Se cargo la pelicula correctamente.");
+				}
 			}
 		});
-		mnPeliculas.add(mntmListar);
+		add(btnAceptar);
+	}
+	//Agrego los inputs al panel
+	private void DibujarInputs() {
+		//
+		textNombre = new JTextField();
+		textNombre.setBounds(236, 150, 125, 30);
+		textNombre.setColumns(10);
+		add(textNombre);
+		//
+		cbGenero = new JComboBox<String>();
+		cbGenero.addItem("-Seleccione un género-");
+		cbGenero.addItem("Terror");
+		cbGenero.addItem("Acción");
+		cbGenero.addItem("Suspenso");
+		cbGenero.addItem("Romántica");	
+		cbGenero.setBounds(236, 200, 125, 30);
+		add(cbGenero);
+	}
+	//Agrego los labels al panel
+	private void DibujarLabels() {
+		lblId = new JLabel("ID:");
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblId.setBounds(101, 100, 125, 30);
+		add(lblId);
+		
+		labelid = new JLabel("");
+		labelid.setFont(new Font("Tahoma", Font.BOLD, 14));
+		labelid.setBounds(236, 100, 125, 30);
+		labelid.setText(Integer.toString(Pelicula.getContPel()));
+		add(labelid);
+		
+		lblNombre = new JLabel("Nombre");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNombre.setBounds(101, 150, 125, 30);
+		add(lblNombre);
+		
+		lblCategoria = new JLabel("Genero");
+		lblCategoria.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCategoria.setBounds(101, 200, 125, 30);
+		add(lblCategoria);
+	}
+	//Recupero los datos almacenados en DefaultListModel
+	public void setDefaultListModel(DefaultListModel<Pelicula> ModelRecibido)
+	{
+		this.dlPelicula = ModelRecibido;
+	}
+	//Compara el nombre de la pelicula y indica en que posicion del DefaultListModel debe ir
+	private int CompararNombresPeliculas(Pelicula peli) {
+		int index;
+		for(index=0;index<dlPelicula.getSize();index++) {
+			int compare = peli.compareTo(dlPelicula.elementAt(index));
+			if(compare < 0 || compare == 0) {
+				return index;
+			}
+		}
+		return index;
 	}
 }

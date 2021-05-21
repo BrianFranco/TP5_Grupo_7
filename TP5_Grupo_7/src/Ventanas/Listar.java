@@ -1,74 +1,43 @@
 package Ventanas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import Ventanas.Agregar;
-
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import Clases.Pelicula;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import Clases.Pelicula;
+import java.awt.Font;
 
-public class Listar extends JFrame {
-
-	private JPanel contentPane;
-	private JList list;
-
-	/**
-	 * Create the frame.
-	 */
+public class Listar extends JPanel {
+	//Attributes
+	private static final long serialVersionUID = 1L;
+	private JLabel lblPeliculas;
+	private JList<Pelicula> jList;
+	private DefaultListModel<Pelicula> dlPelicula;
+	//Constructor
 	public Listar() {
-		setTitle("Programa");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setLayout(null);
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("Peliculas");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Principal");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Principal pri = new Principal();
-				pri.setVisible(true);
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Agregar");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Agregar agr = new Agregar();
-				agr.setVisible(true);
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_1);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblPeliculas = new JLabel("Peliculas");
-		lblPeliculas.setBounds(10, 111, 72, 14);
-		contentPane.add(lblPeliculas);			
-		
-		list = new JList();
-		list.setBounds(92, 30, 291, 177);
-		contentPane.add(list);		
+		DibujarLabel();
+		DibujarJList();
 	}
-
-	
+	//Agrego el label al panel 
+	private void DibujarLabel() {
+		lblPeliculas = new JLabel("Peliculas");
+		lblPeliculas.setBounds(10, 140, 57, 17);
+		lblPeliculas.setFont(new Font("Tahoma", Font.BOLD, 14));
+		add(lblPeliculas);
+	}
+	//Agrego el Jlist al panel
+	private void DibujarJList() {
+		jList = new JList<Pelicula>();
+		jList.setFont(new Font("Arial", Font.PLAIN, 11));
+		jList.setBounds(80, 50, 300, 200);
+		add(jList);
+	}
+	//Recupero los datos almacenados en DefaultListModel
+	public void setDefaultListModel(DefaultListModel<Pelicula> dlPelicula2) {
+		this.dlPelicula = dlPelicula2;
+		jList.setModel(this.dlPelicula);
+		
+	}
 }

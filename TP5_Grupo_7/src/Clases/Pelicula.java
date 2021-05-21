@@ -1,41 +1,52 @@
 package Clases;
 
-public class Pelicula{
+public class Pelicula implements Comparable<Pelicula>{
 	//Attributes
 	private final int id;
 	private String nombre;
 	private Categoria genero;
-	private static int contPeliculas=1; 
+	private static int contPel = 1;
 	//Constructors
-	public Pelicula() {
-		this.id=contPeliculas++;
-		this.nombre="";
-		this.genero.setGenero("");
+	public Pelicula(){
+		this.id = contPel++;
+		this.nombre = "";
+		this.genero = new Categoria();
 	}
 	public Pelicula(String nombre,String genero) {
-		this.id = contPeliculas++;
+		this.id = contPel++;
 		this.nombre = nombre;
-		this.genero.setGenero(genero);
+		this.genero = new Categoria(genero);
 	}
 	//Getters and Setters
+	public int getId() {
+		return this.id;
+	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public Categoria getGenero() {
-		return genero;
+	public String getGenero() {
+		return this.genero.getGenero();
 	}
-	public void setGenero(Categoria genero) {
-		this.genero = genero;
+	public void setGenero(String genero) {
+		this.genero.setGenero(genero);
+	}
+	public static int getContPel() {
+		return contPel;
+	}
+	public static void setContPel(int contPel) {
+		Pelicula.contPel = contPel;
 	}
 	//toString
 	@Override
 	public String toString() {
-		return " Nombre: " + nombre + ", Genero: " + genero + ", ID: "+ id;
+		return "Pelicula = " + this.nombre + " -  Genero = " + this.genero + " - ID = "+this.id;
 	}
-	
-	
+	//compareTo
+	@Override
+	public int compareTo(Pelicula o) {
+		return this.nombre.toLowerCase().compareTo(o.nombre.toLowerCase());
+	}
 }
